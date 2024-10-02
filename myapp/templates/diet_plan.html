@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Plan Result</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #f6d365, #fda085);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        /* Container styling */
+        .right-panel {
+            width: 100%;
+            max-width: 1200px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 40px;
+            text-align: center;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .right-panel:hover {
+            transform: scale(1.02);
+        }
+
+        h1 {
+            color: #ffffff;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 30px;
+            font-size: 3em;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        pre {
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: left;
+            overflow-x: auto;
+            max-height: 500px;
+            margin-bottom: 30px;
+            font-size: 1.5em;
+            font-family: 'Courier New', Courier, monospace;
+            color: #333;
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: linear-gradient(to right, #ffefba, #ffffff);
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: #ffffff;
+            background: linear-gradient(to right, #ff7e5f, #feb47b);
+            font-size: 1.5em;
+            padding: 16px 32px;
+            border-radius: 15px;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        a:hover {
+            background: linear-gradient(to right, #feb47b, #ff7e5f);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .right-panel {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            pre {
+                font-size: 1.2em;
+                padding: 20px;
+            }
+
+            a {
+                font-size: 1.2em;
+                padding: 14px 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="right-panel">
+        <h1>Diet Plan Result</h1>
+        <pre>{{ diet_plan }}</pre>
+        <a href="{% url 'diet_plan_result' %}">View Visualization</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Success</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            max-width: 700px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #ff0505;
+            margin-bottom: 30px;
+            font-size: 28px;
+        }
+        h2 {
+            color: #333333;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+        p {
+            color: #555555;
+            margin: 10px 0;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        a {
+            color: #dc3545;
+            text-decoration: none;
+            font-size: 18px;
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            border: 2px solid #dc3545;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        a:hover {
+            background-color: #dc3545;
+            color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Success!</h1>
+        <h2>Supplier: {{ order_detail.supplier_id.name }}</h2>
+        
+        <h2>Product Details</h2>
+        <p><strong>Name:</strong> {{ order_detail.product_id.name }}</p>
+        <p><strong>Brand:</strong> {{ order_detail.product_id.brand }}</p>
+        <p><strong>Description:</strong> {{ order_detail.product_id.description }}</p>
+        <p><strong>Price:</strong> {{ order_detail.product_id.price }}</p>
+        <p><strong>Quantity Ordered:</strong> {{ order_detail.quantity }}</p>
+        <p><strong>Order Date:</strong> {{ order_detail.date_of_order }}</p>
+        <p><strong>Expected Delivery Date:</strong> {{ order_detail.date_of_delivery }}</p>
+
+        <a href="#" onclick="window.history.back()">Go Back</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!-- search.html -->
+{% extends 'base.html' %}
+{% block title %}
+{% load static %}
+    {% if query %}
+        Search Results for "{{ query }}"
+    {% else %}
+        Search
+    {% endif %}
+{% endblock %}
+
+{% block extra_css %}
+    <style>
+        /* CSS styles for the search results */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: #f2f2f2;
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+
+        .navbar a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .search-results {
+            margin-top: 20px;
+            max-width: 800px; /* Limit the width of search results */
+            margin: 0 auto; /* Center the search results */
+        }
+
+        .product-list {
+            list-style: none;
+            padding: 0;
+            display: flex; /* Set display to flex to arrange items horizontally */
+            flex-wrap: wrap; /* Allow items to wrap to the next line if needed */
+            justify-content: space-between; /* Distribute items evenly */
+        }
+
+        .product-item {
+            width: 30%; /* Set width for each product */
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .product-details {
+            margin-bottom: 10px;
+        }
+
+        .add-to-cart {
+            background-color: #e00f0f;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%; /* Make button full width inside product item */
+        }
+
+        .add-to-cart:hover {
+            background-color: #ef2731;
+        }
+
+        .back-link {
+            display: block;
+            margin-top: 20px;
+            color: #0f3156;
+            text-decoration: none;
+        }
+
+        .no-results {
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% if products %}
+        <div class="search-results">
+            <h2>Search Results for "{{ query }}"</h2>
+            <ul class="product-list">
+                {% for product in products %}
+                    <li class="product-item">
+                        <div class="product-details">
+                            <h3>{{ product.name }}</h3>
+                            <img src="{{ product.image.url }}" alt="{{ product.name }} Image" style="max-width: 100%;">
+                            <p>Description: {{ product.description }}</p>
+                            <p>Price: {{ product.price }}</p>
+                            <!-- Display other product details as needed -->
+                        </div>
+                        <!-- Add to Cart button -->
+                        <form method="post" action="{% url 'add_to_cart' product.id %}">
+                            {% csrf_token %}
+                            <button type="submit" class="add-to-cart">Add to Cart</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+            <!-- Link back to the main page -->
+            <a href="{% url 'index' %}" class="back-link">Home</a>
+        </div>
+    {% else %}
+        <div class="no-results">
+            <p>No products found for "{{ query }}".</p>
+            <!-- Link back to the main page -->
+            <a href="" class="back-link"></a>
+        </div>
+    {% endif %}
+{% endblock %}

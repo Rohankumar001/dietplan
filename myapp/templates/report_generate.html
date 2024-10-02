@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="report-container">
+    <h1>Report Generation</h1>
+
+    <form method="post" action="{% url 'report_generate' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Generate CSV Report</button>
+    </form>
+</div>
+
+<style>
+    .report-container {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        text-decoration: none;
+        transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+</style>
+{% endblock %}

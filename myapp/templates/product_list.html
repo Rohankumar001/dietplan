@@ -1,0 +1,141 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        /* Basic styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        h1, h2, h3 {
+            color: #222;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        li a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        li a:hover {
+            text-decoration: underline;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px 20px; /* Increase the row gap to 40px and column gap to 20px */
+        }
+
+        .product {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            min-height: 400px;
+            min-width: 280px;
+        }
+
+        .product:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .product img {
+            max-width: 300px; /* Corrected the max-width */
+            height: auto;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .product h3 {
+            margin: 10px 0;
+            font-size: 1.25rem;
+            color: #007bff;
+        }
+
+        .product p {
+            margin: 10px 0;
+            color: #666;
+            flex: 1;
+        }
+
+        .product .price {
+            font-size: 1.2rem;
+            color: #333;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Product List</h1>
+
+        <!-- Display Subcategories -->
+        {% if subcategories %}
+        <h2>Subcategories:</h2>
+        <ul>
+            {% for subcategory in subcategories %}
+                <li><a href="{% url 'product_list' subcategory.id %}">{{ subcategory.name }}</a></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
+        <!-- Display Products -->
+        <h2>Products:</h2>
+        <div class="products"><br>
+            {% for product in products %}
+            <div class="product-body">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                    <h3>{{ product.name }}</h3>
+                    <p>{{ product.description }}</p>
+                    <p class="price">Price: {{ product.price }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+        // Example JavaScript (inline)
+        document.addEventListener("DOMContentLoaded", function() {
+            console.log("Page loaded.");
+            // You can add more JavaScript here as needed.
+        });
+    </script>
+</body>
+</html>

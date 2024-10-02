@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Tracking Results</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f0f4f8;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        h2 {
+            font-size: 1.8em;
+            color: #555;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+            background-color: #fff;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+            text-transform: uppercase;
+        }
+
+        td {
+            transition: background-color 0.3s ease;
+        }
+
+        td:hover {
+            background-color: #f1f1f1;
+        }
+
+        a {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            transition: background-color 0.3s ease;
+        }
+
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.5);
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 10px;
+            width: 50%;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        #filterBtn {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        #filterBtn:hover {
+            background-color: #218838;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Weight Tracking Results</h1>
+
+    <h2>Last 5 Entries</h2>
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Start Weight (kg)</th>
+                <th>End Weight (kg)</th>
+                <th>Weight Difference (kg)</th>
+                <th>Chart</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in weight_records %}
+            <tr data-start-date="{{ record.start_date }}" data-end-date="{{ record.end_date }}">
+                <td>{{ record.start_date }}</td>
+                <td>{{ record.end_date }}</td>
+                <td>{{ record.start_weight }}</td>
+                <td>{{ record.end_weight }}</td>
+                <td>{{ record.weight_difference }}</td>
+                <td>
+                    <canvas id="chart-{{ forloop.counter }}" width="400" height="200"></canvas>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <button id="filterBtn">Filter Entries</button>
+    <a href="#" id="addEntryBtn">Add another entry</a>
+
+    <div id="entryModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Add New Weight Entry</h2>
+            <!-- Form for new entry (this will be dynamically loaded or linked) -->
+        </div>
+    </div>
+
+    <a href="{% url 'weight_tracking_results_all' %}">View all entries</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Chart.js initialization
+            {% for record in weight_records %}
+            const ctx{{ forloop.counter }} = document.getElementById('chart-{{ forloop.counter }}').getContext('2d');
+            new Chart(ctx{{ forloop.counter }}, {
+                type: 'bar',
+                data: {
+                    labels: ['Start Weight', 'End Weight'],
+                    datasets: [{
+                        label: 'Weight (kg)',
+                        data: [{{ record.start_weight }}, {{ record.end_weight }}],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Weight (kg)',
+                                color: '#333',
+                                font: {
+                                    size: 16
+                                }
+                            }
+                        }
+                    },
+                    animation: {
+                        duration: 1500,
+                        easing: 'easeInOutBounce'
+                    }
+                }
+            });
+            {% endfor %}
+
+            // Modal functionality for adding an entry
+            var modal = document.getElementById("entryModal");
+            var btn = document.getElementById("addEntryBtn");
+            var span = document.getElementsByClassName("close")[0];
+
+            btn.onclick = function () {
+                modal.style.display = "block";
+            }
+
+            span.onclick = function () {
+                modal.style.display = "none";
+            }
+
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            }
+
+            // Date range filter functionality
+            document.getElementById('filterBtn').addEventListener('click', function () {
+                const startDate = document.getElementById('startDate').value;
+                const endDate = document.getElementById('endDate').value;
+                const rows = document.querySelectorAll('#resultsTable tbody tr');
+
+                rows.forEach(row => {
+                    const rowStartDate = row.getAttribute('data-start-date');
+                    const rowEndDate = row.getAttribute('data-end-date');
+
+                    const showRow = (
+                        (!startDate || new Date(rowStartDate) >= new Date(startDate)) &&
+                        (!endDate || new Date(rowEndDate) <= new Date(endDate))
+                    );
+
+                    row.style.display = showRow ? '' : 'none';
+                });
+            });
+
+            // jQuery Datepicker initialization
+            $("#startDate").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+            $("#endDate").datepicker({
+                dateFormat: 'yy-mm-dd'
+            });
+        });
+    </script>
+</body>
+
+</html>

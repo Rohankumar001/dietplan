@@ -1,0 +1,313 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="progress-container">
+    <h1>Your Progress</h1>
+
+    <!-- Display Total Statistics -->
+    <div class="stats-container">
+        <div class="stat-box">
+            <h2>Total Calories Burned</h2>
+            <p>{{ total_calories_burned }} kcal</p>
+        </div>
+        <div class="stat-box">
+            <h2>Total Calories Consumed</h2>
+            <p>{{ total_calories_consumed }} kcal</p>
+        </div>
+    </div>
+
+    {% if weight_progress_message %}
+        <div class="alert alert-info">
+            {{ weight_progress_message }}
+        </div>
+    {% endif %}
+
+    <!-- Insert Canvas for Chart -->
+    <div class="chart-container">
+        <canvas id="caloriesChart"></canvas>
+    </div>
+
+    <!-- Table for Health Records -->
+    
+        </thead>
+        <tbody>
+            {% for record in health_records %}
+                <tr>
+                    <td>{{ record.exercise_done }}</td>
+                    <td>{{ record.food_intake }}</td>
+                    <td>{{ record.calories_consumed }}</td>
+                    <td>{{ record.calories_burned }}</td>
+                    <td>{{ record.weight_target }}</td>
+                    <td>{{ record.current_weight }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="6">Visualizations as Per date.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Buttons to download the chart as a PDF or CSV -->
+    <div class="download-container">
+        <button id="download-pdf-btn" class="btn btn-primary">Download Progress as PDF</button>
+        <button id="download-csv-btn" class="btn btn-secondary">Download Data as CSV</button>
+    </div>
+</div>
+
+<!-- Load Chart.js and other libraries -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+<script>
+    // Create a bar chart using Chart.js
+    var ctx = document.getElementById('caloriesChart').getContext('2d');
+    var chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: {{ dates|safe }},
+            datasets: [
+                {
+                    label: 'Calories Burned',
+                    data: {{ calories_burned|safe }},
+                    backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                    borderColor: 'rgb(75, 192, 192)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Calories Consumed',
+                    data: {{ calories_consumed|safe }},
+                    backgroundColor: 'rgba(255, 99, 132, 0.8)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    borderWidth: 1
+                },
+                {
+                    label: 'Weight (kg)',
+                    data: {{ weights|safe }},
+                    backgroundColor: 'rgba(54, 162, 235, 0.8)',
+                    borderColor: 'rgb(54, 162, 235)',
+                    borderWidth: 1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Date',
+                        font: {
+                            size: 18,
+                            weight: 'bold',
+                            family: 'Poppins'
+                        }
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Values',
+                        font: {
+                            size: 18,
+                            weight: 'bold',
+                            family: 'Poppins'
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',
+                    labels: {
+                        font: {
+                            size: 14,
+                            family: 'Poppins'
+                        },
+                        boxWidth: 20,
+                        padding: 15,
+                    }
+                }
+            }
+        }
+    });
+
+    // Function to download the chart and details as a PDF
+    document.getElementById('download-pdf-btn').addEventListener('click', function () {
+        html2canvas(document.querySelector('.chart-container')).then(function (canvas) {
+            const { jsPDF } = window.jspdf;
+            var pdf = new jsPDF('landscape');
+
+            // Add text to the PDF
+            pdf.setFontSize(18);
+            pdf.text("Progress Report", 140, 20, { align: 'center' });
+            pdf.setFontSize(14);
+            pdf.text("Total Calories Burned: {{ total_calories_burned }} kcal", 10, 40);
+            pdf.text("Total Calories Consumed: {{ total_calories_consumed }} kcal", 10, 50);
+
+            {% if weight_progress_message %}
+            pdf.text("Weight Progress: {{ weight_progress_message }}", 10, 60);
+            {% endif %}
+
+            // Add the chart to the PDF
+            var imgData = canvas.toDataURL('image/png');
+            var imgWidth = 280;  // Full width of the PDF
+            var imgHeight = canvas.height * imgWidth / canvas.width;
+            var position = 70; // Adjust position of the image
+            pdf.addImage(imgData, 'PNG', 10, position, imgWidth, imgHeight);
+
+            // Save the PDF
+            pdf.save('progress_report.pdf');
+        });
+    });
+
+    // Function to download data as CSV
+    document.getElementById('download-csv-btn').addEventListener('click', function () {
+        var csvData = "Date,Calories Burned,Calories Consumed,Weight (kg)\n";
+        var dates = {{ dates|safe }};
+        var caloriesBurned = {{ calories_burned|safe }};
+        var caloriesConsumed = {{ calories_consumed|safe }};
+        var weights = {{ weights|safe }};
+
+        for (var i = 0; i < dates.length; i++) {
+            csvData += dates[i] + "," + caloriesBurned[i] + "," + caloriesConsumed[i] + "," + weights[i] + "\n";
+        }
+
+        // Create a temporary download link
+        var link = document.createElement('a');
+        link.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvData);
+        link.download = 'progress_data.csv';
+
+        // Simulate a click to trigger the download
+        link.click();
+    });
+</script>
+
+<!-- Advanced CSS Styling -->
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f0f4f8;
+        color: #333;
+    }
+
+    .progress-container {
+        margin: 20px auto;
+        max-width: 900px;
+        padding: 30px;
+        background-color: #fff;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        border-radius: 15px;
+        animation: fadeIn 1.5s ease-in-out;
+    }
+
+    h1 {
+        text-align: center;
+        color: #ff6b6b;
+        margin-bottom: 30px;
+        font-size: 3rem;
+        font-weight: 800;
+        letter-spacing: 1px;
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 40px;
+    }
+
+    .stat-box {
+        background-color: #f9f9f9;
+        border: 2px solid #eee;
+        padding: 30px;
+        border-radius: 12px;
+        width: 45%;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+    .stat-box:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-box h2 {
+        margin-bottom: 10px;
+        font-size: 1.8rem;
+        color: #333;
+    }
+
+    .stat-box p {
+        font-size: 1.4rem;
+        font-weight: bold;
+        color: #4caf50;
+    }
+
+    .chart-container {
+        margin-top: 40px;
+    }
+
+    #caloriesChart {
+        max-width: 100%;
+        height: 450px;
+    }
+
+    .download-container {
+        text-align: center;
+        margin: 20px 0;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 1.2rem;
+        margin: 0 10px;
+        border-radius: 5px;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .btn-primary {
+        background-color: #4caf50;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background-color: #2196F3;
+        color: #fff;
+    }
+
+    .btn:hover {
+        opacity: 0.8;
+    }
+
+    table {
+        width: 100%;
+        margin-top: 20px;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+    th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+</style>
+
+{% endblock %}

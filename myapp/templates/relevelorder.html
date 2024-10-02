@@ -1,0 +1,122 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <style>
+        /* Styles for the header */
+        .header {
+            background-color: #000000;
+            color: #fff;
+            padding: 10px;
+            text-align: center;
+        }
+
+        /* Styles for the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #1c0b0b;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #000000;
+        }
+
+        /* Styles for the product image */
+        .product-image {
+            max-width: 100px;
+            max-height: 100px;
+        }
+
+        /* Styles for the buttons */
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .edit-btn {
+            background-color: #4caf50;
+        }
+
+        .delete-btn {
+            background-color: #f44336;
+        }
+
+        .reorder-level-section {
+    margin-top: 20px;
+}
+
+.reorder-level-heading {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333; /* Adjust color as needed */
+}
+
+.reorder-level-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.reorder-level-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9; /* Light gray background */
+    border-radius: 5px;
+}
+
+.restock-link {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.no-reorder-level-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #f9f9f9; /* Light gray background */
+    border-radius: 5px;
+    color: #888; /* Gray color for empty message */
+}
+
+
+        
+    </style>
+</head>
+<body>
+    <div class="header">
+        <a href="{% url 'admin_add' %}" class="btn">Add Product</a>
+        <a href="{% url 'adminorders' %}" class="btn">Order Items</a>
+        <a href="{% url 'index' %}" class="btn">Home</a>
+        <a href="{% url 'user_logout' %}" class="btn">Log out</a>
+    </div>
+
+    <div class="reorder-level-section">
+        <h2 class="reorder-level-heading">Products at Reorder Level:</h2>
+        <ul class="reorder-level-list">
+            {% for product in products_at_reorder_level %}
+                <li class="reorder-level-item">
+                    This {{ product.name }} needs to be restocked soon  
+                    <a href="/edit_product/{{product.id}}/" class="restock-link">Restock</a>
+                    <a href="/send_request/{{product.id}}/">Send request</a>
+
+                </li>
+            {% empty %}
+                <li class="no-reorder-level-item">No products at reorder level.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    
+
+    

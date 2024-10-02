@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Plan Visualization</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        /* Container styling */
+        .right-panel {
+            width: 90%;
+            max-width: 1000px;
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .right-panel h1 {
+            color: #007bff;
+            margin-bottom: 20px;
+            font-size: 2.5em;
+            font-weight: 600;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+
+        .right-panel p {
+            font-size: 1em;
+            color: #555;
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+
+        pre {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            overflow-x: auto;
+            max-height: 300px;
+            margin-bottom: 20px;
+            font-size: 1em;
+            font-family: 'Courier New', Courier, monospace;
+            color: #333;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: #ffffff;
+            background: linear-gradient(to right, #007bff, #0056b3);
+            font-size: 1em;
+            padding: 12px 24px;
+            border-radius: 8px;
+            transition: background 0.3s, transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        a:hover {
+            background: linear-gradient(to right, #0056b3, #007bff);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Visualization styling */
+        .visualization {
+            margin: 20px 0;
+            position: relative;
+            display: inline-block;
+            max-width: 100%;
+        }
+
+        .visualization img {
+            width: 100%;
+            max-width: 1000px;
+            height: auto;
+            border-radius: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .visualization h2 {
+            margin-bottom: 10px;
+            font-size: 1.5em;
+            color: #007bff;
+        }
+
+        .visualization p {
+            font-size: 0.9em;
+            color: #555;
+            margin-top: 10px;
+        }
+
+        /* Tooltip styling */
+        .visualization:hover .tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .tooltip {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            border-radius: 6px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            font-size: 0.9em;
+            max-width: 300px;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div class="right-panel">
+        <h1>Diet Plan Visualization</h1>
+        <pre>{{ diet_plan }}</pre>
+
+        <div class="visualization">
+            <h2>Exercise Distribution</h2>
+            <img src="data:image/png;base64,{{ exercise_plot }}" alt="Exercise Distribution">
+            <p>This bar chart illustrates the distribution of different types of exercises included in the diet plan, showing how much time is dedicated to each type.</p>
+        </div>
+
+        <div class="visualization">
+            <h2>Food Intake Distribution</h2>
+            <img src="data:image/png;base64,{{ food_plot }}" alt="Food Intake Distribution">
+            <p>This pie chart shows the proportion of different food types consumed, helping to understand the dietary balance.</p>
+        </div>
+
+        <div class="visualization">
+            <h2>Diet Breakdown</h2>
+            <img src="data:image/png;base64,{{ diet_plot }}" alt="Diet Breakdown">
+            <p>This bar chart provides a breakdown of the diet in terms of calories, proteins, and fats, showing the amount of each nutrient.</p>
+        </div>
+
+        <div class="visualization">
+            <h2>Daily Calorie Intake</h2>
+            <img src="data:image/png;base64,{{ calorie_plot }}" alt="Daily Calorie Intake">
+            <p>This scatter plot visualizes the daily calorie intake across different meals, offering insights into consumption patterns.</p>
+        </div>
+
+        <div class="visualization">
+            <h2>Calorie Trends Over Days</h2>
+            <img src="data:image/png;base64,{{ scatter_plot }}" alt="Calorie Trends Over Days">
+            <p>This scatter plot tracks calorie intake trends over multiple days, showing fluctuations and patterns in consumption.</p>
+        </div>
+        
+        <a href="{% url 'diet_plan_result' %}">Go to another view</a>
+    </div>
+</body>
+</html>

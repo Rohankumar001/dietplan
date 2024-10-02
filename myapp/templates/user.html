@@ -1,0 +1,503 @@
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
+		<title>Dietplan</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+		<!-- Google font -->
+		<link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
+		<!-- Bootstrap -->
+		<link type="text/css" rel="stylesheet" href="{%static 'css/bootstrap.min.css'%}">
+
+		<!-- Slick -->
+		<link type="text/css" rel="stylesheet" href="{%static 'css/slick.css'%}">
+		<link type="text/css" rel="stylesheet" href="{%static 'css/slick-theme.css'%}">
+
+		<!-- nouislider -->
+		<link type="text/css" rel="stylesheet" href="{%static 'css/nouislider.min.css'%}">
+
+		<!-- Font Awesome Icon -->
+		<link rel="stylesheet" href="{%static 'css/font-awesome.min.css'%}">
+
+		<!-- Custom stlylesheet -->
+		<link type="text/css" rel="stylesheet" href="{%static 'css/style.css'%}"/>
+
+    </head>
+	<body>
+		<!-- HEADER -->
+		<header>
+			<!-- TOP HEADER -->
+			<div id="top-header">
+				<div class="container">
+					<ul class="header-links pull-left">
+						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+					</ul>
+					<ul class="header-links pull-right">
+						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
+						<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- /TOP HEADER -->
+
+			<!-- MAIN HEADER -->
+			<div id="header">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<!-- LOGO -->
+						<div class="col-md-3">
+                            <div class="col-md-3 pt-4">
+                                <span class="text-white fw-bold fs-1">Admin Dashboard</span>
+                            </div>
+						</div>
+						<!-- /LO
+					
+
+						
+								<!- <form>
+									<select class="input-select">
+										<option value="0">All Categories</option>
+										<option value="1">Category 01</option>
+										<option value="1">Category 02</option>
+									</select>
+									<input class="input" placeholder="Search here">
+									<button class="search-btn">Search</button>
+								</form> -->
+							</div>
+						</div>
+						<!-- /SEARCH BAR -->
+
+						<!-- ACCOUNT -->
+						<!-- <div class="col-md-3 clearfix">
+							<div class="header-ctn">
+								<!-Wishlist -->
+								<!-- <div>
+									<a href="#">
+										<i class="fa fa-heart-o"></i>
+										<span>Your Wishlist</span>
+										<div class="qty">2</div>
+									</a>
+								</div> -->
+							
+
+								<!-- Cart -->
+								<!-- <div class="dropdown">
+									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+										<i class="fa fa-shopping-cart"></i>
+										<span>Your Cart</span>
+										<div class="qty">3</div>
+									</a>
+									<div class="cart-dropdown">
+										<div class="cart-list">
+											<div class="product-widget">
+												<div class="product-img">
+													<img src="./img/product01.png" alt="">
+												</div>
+												<div class="product-body">
+													<h3 class="product-name"><a href="#">product name goes here</a></h3>
+													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+												</div>
+												<button class="delete"><i class="fa fa-close"></i></button>
+											</div> -->
+
+											<!-- <div class="product-widget">
+												<div class="product-img">
+													<img src="./img/product02.png" alt="">
+												</div>
+												<div class="product-body">
+													<h3 class="product-name"><a href="#">product name goes here</a></h3>
+													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
+												</div>
+												<button class="delete"><i class="fa fa-close"></i></button>
+											</div>
+										</div>
+										<div class="cart-summary">
+											<small>3 Item(s) selected</small>
+											<h5>SUBTOTAL: $2940.00</h5>
+										</div>
+										<div class="cart-btns">
+											<a href="#">View Cart</a>
+											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+										</div>
+									</div>
+								</div> -->
+								<!-- /Cart -->
+
+								<!-- Menu Toogle -->
+								
+									</a>
+								</div>
+								<!-- /Menu Toogle -->
+							</div>
+						</div>
+						<!-- /ACCOUNT -->
+					</div>
+					<!-- row -->
+				</div>
+				<!-- container -->
+			</div>
+			<!-- /MAIN HEADER -->
+		</header>
+		<!-- /HEADER -->
+
+<!-- NAVIGATION -->
+<nav id="navigation" style="background-color: #f7f7f7; padding: 10px;">
+    <!-- container -->
+    <div class="container">
+        <!-- responsive-nav -->
+        <div id="responsive-nav">
+            <!-- Sidebar Menu -->
+            <ul style="list-style-type: none; padding: 0; margin: 0;">
+                <li style="display: inline-block; margin-right: 20px;">
+                    <a href="{% url 'index' %}" style="text-decoration: none; color: rgb(222, 37, 37); padding: 10px; font-weight: bold;">Home</a>
+                </li>
+                <li style="display: inline-block; margin-right: 20px;">
+                    <a href="{% url 'admin_add' %}" style="text-decoration: none; color: rgb(222, 37, 37); padding: 10px; font-weight: bold;">Add Products</a>
+                </li>
+                <li style="display: inline-block; margin-right: 20px;">
+                    <a href="{% url 'adminorders' %}" style="text-decoration: none; color: rgb(222, 37, 37); padding: 10px; font-weight: bold;">Order Items</a>
+                </li>
+                <li style="display: inline-block; margin-right: 20px;">
+                    <a href="{% url 'reoder' %}" style="text-decoration: none; color: rgb(222, 37, 37); padding: 10px; font-weight: bold;">Restock</a>
+                </li>
+                <li style="display: inline-block;">
+                    <a href="{% url 'user_logout' %}" style="text-decoration: none; color: rgb(222, 37, 37); padding: 10px; font-weight: bold;">Logout</a>
+					<a href="{% url 'supplier_add' %}"style="text-decoration: none; color: rgb(222, 37, 37); padding: 10px; font-weight: bold;">Add supplier</a></a>
+					<a href="{% url 'supplier_replies' %}"style="text-decoration: none; color: rgb(222, 37, 37); padding: 10px; font-weight: bold;">supplier replay details</a></a>
+                </li>
+            </ul>
+            <!-- /Sidebar Menu -->
+        </div>
+    </div>
+</nav>
+
+
+
+		<!-- BREADCRUMB -->
+		<div id="breadcrumb" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<h3 class="breadcrumb-header"></h3>
+						<ul class="breadcrumb-tree">
+							<!-- <li><a href=""></a>Home</li>
+							<li class="active"></li> -->
+						</ul>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+		
+<head>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Admin Dashboard</title>
+		<style>
+			/* Global Styles */
+			body {
+				font-family: Arial, sans-serif;
+				margin: 0;
+				padding: 0;
+				background-color: #f9f9f9;
+			}
+	
+			/* Header Styles */
+			.header {
+				background-color: #333;
+				color: #fff;
+				padding: 20px;
+				text-align: center;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			}
+	
+			.header a {
+				color: #fff;
+				text-decoration: none;
+				margin: 0 10px;
+				padding: 10px 20px;
+				border-radius: 5px;
+				transition: background-color 0.3s;
+			}
+	
+			.header a:hover {
+				background-color: #0056b3;
+			}
+	
+			/* Table Styles */
+			table {
+				width: 90%;
+				margin: 20px auto;
+				border-collapse: collapse;
+				background-color: #fff;
+				box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+				border-radius: 8px;
+			}
+	
+			th, td {
+				border: 1px solid #ddd;
+				padding: 12px;
+				text-align: left;
+			}
+	
+			th {
+				background-color: #150e0e;
+				color: #ebe4e4;
+				text-transform: uppercase;
+			}
+	
+			/* Product Image Styles */
+			.product-image {
+				max-width: 100px;
+				max-height: 100px;
+				border-radius: 5px;
+			}
+	
+			/* Button Styles */
+			.btn {
+				display: inline-block;
+				padding: 8px 16px;
+				border-radius: 5px;
+				text-decoration: none;
+				color: #fff;
+				transition: background-color 0.3s;
+				cursor: pointer;
+				font-weight: bold;
+				border: none;
+			}
+	
+			.edit-btn {
+				background-color: #070108;
+			}
+	
+			.edit-btn:hover {
+				background-color: #f1f5f1;
+				color: #070108;
+			}
+	
+			.delete-btn {
+				background-color: #dc3545;
+			}
+	
+			.delete-btn:hover {
+				background-color: #c82333;
+			}
+	
+			/* Title Styles */
+			h1 {
+				text-align: center;
+				margin-top: 20px;
+				color: #333;
+			}
+		</style>
+	</head>
+	<body>
+		<!-- <div class="header">
+			<a href="{% url 'admin_add' %}" class="btn">Add Product</a>
+			<a href="{% url 'adminorders' %}" class="btn">Order Items</a>
+			<a href="{% url 'index' %}" class="btn">Home</a>
+			<a href="{% url 'reoder' %}" class="btn">Restock</a>
+			<a href="{% url 'user_logout' %}" class="btn">Log out</a>
+		</div> -->
+		
+		<h1>Manage Products</h1>
+		<table>
+			<thead>
+				<tr>
+					<th style="width: 20%;">Image</th>
+					<th style="width: 20%;">Category</th>
+					<th style="width: 30%;">Name</th>
+					<th style="width: 20%;">Price</th>
+					<th style="width: 30%;">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for product in productdata %}
+					{% if product.is_active %}
+						<tr>
+							<td><img src="{{ product.image.url }}" alt="{{ product.name }}" class="product-image"></td>
+							<td>{{ product.category.name }}</td>
+							<td>{{ product.name }}</td>
+							<td>Rs{{ product.price }}</td>
+							<td>
+								<a href="{% url 'edit_product' product.id %}" class="btn edit-btn">Edit</a>
+								<a href="{% url 'delete_product' product.id %}" class="btn delete-btn">Delete</a>
+							</td>
+						</tr>
+					{% endif %}
+				{% endfor %}
+			</tbody>
+		</table>
+	</body>
+</html>
+-->
+		</div>
+		<!-- /BREADCRUMB -->
+
+		<!-- SECTION -->
+		<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+		<!-- NEWSLETTER -->
+		<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<form>
+								<input class="input" type="email" placeholder="Enter Your Email">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>
+							<ul class="newsletter-follow">
+								<li>
+									<a href="#"><i class="fa fa-facebook"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /NEWSLETTER -->
+
+		<!-- FOOTER -->
+		<footer id="footer">
+			<!-- top footer -->
+			<div class="section">
+				<!-- container -->
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">About Us</h3>
+								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut.</p>
+								<ul class="footer-links">
+									<li><a href="#"><i class="fa fa-map-marker"></i>1734 Stonecoal Road</a></li>
+									<li><a href="#"><i class="fa fa-phone"></i>+021-95-51-84</a></li>
+									<li><a href="#"><i class="fa fa-envelope-o"></i>dietplan@email.com</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Categories</h3>
+								<ul class="footer-links">
+									<li><a href="#">Food Meals</a></li>
+									<li><a href="#">Exercise</a></li>
+									<li><a href="#">Calories</a></li>
+									
+								</ul>
+							</div>
+						</div>
+
+						<div class="clearfix visible-xs"></div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Information</h3>
+								<ul class="footer-links">
+									<li><a href="#">About Us</a></li>
+									<li><a href="#">Contact Us</a></li>
+									<li><a href="#">Privacy Policy</a></li>
+									<li><a href="#">Orders and Returns</a></li>
+									<li><a href="#">Terms & Conditions</a></li>
+								</ul>
+							</div>
+						</div>
+
+						<div class="col-md-3 col-xs-6">
+							<div class="footer">
+								<h3 class="footer-title">Service</h3>
+								<ul class="footer-links">
+									<li><a href="#">My Account</a></li>
+									<li><a href="#">View Cart</a></li>
+									<li><a href="#">Wishlist</a></li>
+									<li><a href="#">Track My Order</a></li>
+									<li><a href="#">Help</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /top footer -->
+
+			<!-- bottom footer -->
+			<div id="bottom-footer" class="section">
+				<div class="container">
+					<!-- row -->
+					<div class="row">
+						<div class="col-md-12 text-center">
+							<ul class="footer-payments">
+								<li><a href="#"><i class="fa fa-cc-visa"></i></a></li>
+								<li><a href="#"><i class="fa fa-credit-card"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-discover"></i></a></li>
+								<li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
+							</ul>
+							<span class="copyright">
+								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Dietplan</a>
+							<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+							</span>
+
+
+						</div>
+					</div>
+						<!-- /row -->
+				</div>
+				<!-- /container -->
+			</div>
+			<!-- /bottom footer -->
+		</footer>
+		<!-- /FOOTER -->
+<!-- jQuery Plugins -->
+<script src="{%static 'js/jquery.min.js'%}"></script>
+<script src="{%static 'js/bootstrap.min.js'%}"></script>
+<script src="{%static 'js/slick.min.js'%}"></script>
+<script src="{%static 'js/nouislider.min.js'%}"></script>
+<script src="{%static 'js/jquery.zoom.min.js'%}"></script>
+<script src="{%static 'js/main.js'%}"></script>
+
+	</body>
+</html>

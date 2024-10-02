@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Plan Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Base styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(120deg, #f0f4f9, #dfe9f3);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .chat-container {
+            width: 400px;
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .messages {
+            height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            scroll-behavior: smooth;
+        }
+
+        .message {
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            max-width: 75%;
+            font-size: 15px;
+            word-wrap: break-word;
+        }
+
+        .message strong {
+            font-weight: bold;
+        }
+
+        .message.you {
+            background-color: #daf8e3;
+            align-self: flex-end;
+            text-align: right;
+        }
+
+        .message.bot {
+            background-color: #f1f0f0;
+        }
+
+        /* Input styles */
+        .input-container {
+            display: flex;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            background-color: #28a745;
+            border: none;
+            color: white;
+            padding: 15px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #218838;
+        }
+
+        button:active {
+            background-color: #1e7e34;
+        }
+
+        /* Scrollbar style */
+        .messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .messages::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+
+        .messages::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        /* Chatbot typing indicator */
+        .typing-indicator {
+            position: absolute;
+            bottom: 75px;
+            left: 20px;
+            display: none;
+            font-style: italic;
+            color: #888;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message {
+            animation: fadeIn 0.5s ease;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="chat-container">
+        <h1>Diet Plan & Exercise Chatbot</h1>
+        <div class="messages" id="messages"></div>
+        <div class="typing-indicator" id="typing-indicator">Chatbot is typing...</div>
+        <div class="input-container">
+            <input type="text" id="user-input" placeholder="Type your message...">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            // Typing indicator function
+            function showTyping() {
+                $('#typing-indicator').fadeIn();
+            }
+
+            function hideTyping() {
+                $('#typing-indicator').fadeOut();
+            }
+
+            // Send message function
+            function sendMessage(userInput) {
+                $('#messages').append(`<div class="message you"><strong>You:</strong> ${userInput}</div>`);
+                $('#user-input').val("");  // Clear input
+                showTyping();
+
+                // Simulate chatbot delay before responding
+                setTimeout(function () {
+                    // Send AJAX request to Django backend
+                    $.ajax({
+                        url: "{% url 'chatbot' %}",
+                        type: "POST",
+                        data: {
+                            user_input: userInput,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        success: function (response) {
+                            hideTyping();
+                            const chatbotResponse = response.response;
+                            $('#messages').append(`<div class="message bot"><strong>Chatbot:</strong> ${chatbotResponse}</div>`);
+                            $('#messages').scrollTop($('#messages')[0].scrollHeight); // Scroll to bottom
+                        },
+                        error: function () {
+                            hideTyping();
+                            $('#messages').append('<div class="message bot"><strong>Error:</strong> Something went wrong</div>');
+                        }
+                    });
+                }, 1000);
+            }
+
+            // Send message on button click
+            $('#send-btn').on('click', function () {
+                const userInput = $('#user-input').val();
+                if (userInput.trim() !== "") {
+                    sendMessage(userInput);
+                }
+            });
+
+            // Send message on Enter key press
+            $('#user-input').on('keypress', function (e) {
+                if (e.which == 13) {
+                    $('#send-btn').click();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

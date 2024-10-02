@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Product</title>
+    <style>
+        /* Body styles */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4; /* Light gray background */
+            margin: 0;
+            padding: 20px; /* Space around the content */
+            display: flex; /* Use flexbox for alignment */
+            flex-direction: column; /* Arrange items in a column */
+            align-items: center; /* Center items horizontally */
+            height: 100vh; /* Full viewport height */
+        }
+        
+        /* Heading styles */
+        h1 {
+            color: #333; /* Dark gray color for headings */
+            text-align: center; /* Center the heading */
+            margin-bottom: 20px; /* Space below the heading */
+        }
+        
+        /* Form styles */
+        form {
+            background: white; /* White background for the form */
+            padding: 20px; /* Space inside the form */
+            border-radius: 5px; /* Rounded corners */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+            width: 300px; /* Fixed width for form */
+        }
+        
+        /* Paragraph styles in the form */
+        form p {
+            margin: 10px 0; /* Space around form paragraphs */
+        }
+        
+        /* Button styles */
+        button {
+            background-color: #28a745; /* Green background */
+            color: white; /* White text color */
+            border: none; /* No border */
+            padding: 10px 15px; /* Padding inside the button */
+            border-radius: 5px; /* Rounded corners for the button */
+            cursor: pointer; /* Pointer cursor on hover */
+            width: 100%; /* Button takes full width */
+        }
+        
+        /* Button hover effect */
+        button:hover {
+            background-color: #218838; /* Darker green on hover */
+        }
+    </style>
+</head>
+<body>
+    <h1>Add a New Product</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}  <!-- Renders the form fields as paragraphs -->
+        <button type="submit">Add Product</button>  <!-- Submit button -->
+    </form>
+</body>
+</html>

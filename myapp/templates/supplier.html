@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Supplier Product Delivery Form</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #ffffff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+        }
+        h1 {
+            color: #000000;
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 24px;
+        }
+        .section {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        h2 {
+            color: #000000;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        p {
+            color: #000000;
+            margin: 5px 0;
+            font-size: 14px;
+        }
+        form {
+            background: #f8f8f8;
+            padding: 10px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 5px 0;
+            color: #333;
+            font-weight: bold;
+        }
+        input, select {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        button {
+            padding: 10px;
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Supplier Product Delivery Form</h1>
+
+        <div class="section">
+            <h2>Supplier: {{ order_detail.supplier_id.name }}</h2>
+            <h2>Product Details</h2>
+            <p><strong>Name:</strong> {{ order_detail.product_id.name }}</p>
+            <p><strong>Brand:</strong> {{ order_detail.product_id.brand }}</p>
+            <p><strong>Description:</strong> {{ order_detail.product_id.description }}</p>
+            <p><strong>Price:</strong> {{ order_detail.product_id.price }}</p>
+            <p><strong>Quantity Ordered:</strong> {{ order_detail.quantity }}</p>
+            <p><strong>Order Date:</strong> {{ order_detail.date_of_order }}</p>
+            <p><strong>Expected Delivery Date:</strong> {{ order_detail.date_of_delivery }}</p>
+        </div>
+
+        <div class="section">
+            <h2>Update Order Details</h2>
+            <form method="POST">
+                {% csrf_token %}
+                
+                <label for="quantity">Quantity:</label>
+                <input type="number" id="quantity" name="quantity" value="{{ order_detail.quantity }}" min="1">
+
+                <label for="date_of_delivery">Date of Delivery:</label>
+                <input type="date" id="date_of_delivery" name="date_of_delivery" value="{{ order_detail.date_of_delivery|date:'Y-m-d' }}">
+                
+                <label for="status">Status:</label>
+                <select id="status" name="status">
+                    <option value="can be satisfied" {% if order_detail.status == 'can be satisfied' %}selected{% endif %}>Can be Satisfied</option>
+                    <option value="stock not available" {% if order_detail.status == 'stock not available' %}selected{% endif %}>Stock Not Available</option>
+                </select>
+                
+                <button type="submit">Update Order</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

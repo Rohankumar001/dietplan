@@ -1,0 +1,57 @@
+
+<style>
+    /* Style the form container */
+    form {
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+    }
+
+    /* Style the divs containing the inputs */
+    form div {
+        margin-bottom: 15px;
+    }
+
+    /* Style the labels */
+    form label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    /* Style the input fields */
+    form input {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    /* Style the submit button */
+    form button {
+        width: 100%;
+        padding: 10px;
+        background-color: #f80505;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    /* Add a hover effect for the button */
+    form button:hover {
+        background-color: #0056b3;
+    }
+</style>
+<h1>Add New Supplier </h1>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Supplier</button>
+</form>

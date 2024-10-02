@@ -1,0 +1,62 @@
+
+    <section style="flex: 1;">|
+        <script>
+            function validateForm() {
+                var supplier = document.getElementById("supplier").value;
+                var quantity = document.getElementById("quantity").value;
+                var date = document.getElementById("DATE").value;
+    
+                // Basic validation
+                if (supplier === "" || quantity === "" || date === "") {
+                    alert("All fields are required");
+                    return false;
+                }
+    
+                // Validate quantity (must be a valid integer)
+                if (!Number.isInteger(parseInt(quantity))) {
+                    alert("Quantity must be an integer");
+                    return false;
+                }
+    
+                // Validate date (must be today or later)
+                var today = new Date();
+                var selectedDate = new Date(date);
+                if (selectedDate < today) {
+                    alert("Date must be today or later");
+                    return false;
+                }
+    
+                return true;
+            }
+        </script>
+
+    <h1>send supplier request</h1>
+
+    <form action="" method="POST"  onsubmit="return validateForm()">
+        {% csrf_token %}
+        <label for="supplier">Supplier Avaliable</label>
+         
+        <select name="supplier" id="supplier">
+            <option value=''>none</option>
+
+            {% for supplier in suppliers %}
+                <option value="{{ supplier.id }}">{{ supplier.name }} </option>
+            {% endfor %}
+        </select>
+
+        <br>
+        <label for="quntity">Quntity</label>
+        <input type="number" name="quantity" id="quantity">
+
+        <br>
+        <label for="DATE">date</label>
+        <input type="date" id="DATE" name="DATE">
+        
+
+        <button type="submit">Send Request</button>
+
+
+    </form>
+    
+    <section>|
+

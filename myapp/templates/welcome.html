@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diet Recommendation System</title>
+    <style>
+        /* Universal styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://www.sxsw.com/wp-content/uploads/2018/03/Herbalife-SXSW-blog.jpg') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Arial', sans-serif;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        /* Navbar styling */
+        .navbar {
+            background-color: rgba(255, 255, 255, 0.85);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: absolute;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s ease;
+        }
+
+        /* Sticky class for navbar */
+        .sticky {
+            position: fixed;
+            background-color: rgba(255, 255, 255, 1);
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: red;
+            padding: 10px 20px;
+            font-weight: bold;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .navbar a:hover {
+            background-color: rgba(255, 0, 0, 0.2);
+            border-radius: 5px;
+            color: white;
+        }
+
+        .navbar-brand {
+            font-size: 24px;
+            color: red;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+        }
+
+        /* Main Heading */
+        h1 {
+            font-size: 4rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.6);
+            margin-top: 120px;
+            text-align: center;
+            animation: slideIn 1.5s ease-out;
+        }
+
+        /* Cards Section */
+        .cards-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.7));
+            border-radius: 15px;
+            width: 300px;
+            margin: 20px;
+            padding: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-title {
+            color: red;
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+
+        .card-text {
+            color: #333;
+            font-size: 1rem;
+            text-align: center;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px;
+            background-color: rgba(255, 0, 0, 0.8);
+            color: white;
+            position: fixed;
+            bottom: -100px;
+            width: 100%;
+            transition: bottom 0.5s ease;
+        }
+
+        footer p {
+            font-size: 1rem;
+        }
+
+        /* Button styles */
+        .scroll-btn,
+        .chatbot-btn {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            background-color: red;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 1.5rem;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .scroll-btn:hover,
+        .chatbot-btn:hover {
+            background-color: #ff4b4b;
+            transform: translateY(-5px);
+        }
+
+        .scroll-btn {
+            display: none;
+        }
+
+        .chatbot-btn {
+            right: 70px;
+        }
+
+        /* Animations */
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar" id="navbar">
+        <a class="navbar-brand" href="#">Diet & Plan</a>
+        <div>
+            <a href="{% url 'index' %}">Our Products</a>
+            <a href="{% url 'diet_plan_form' %}">Diet Plan</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'user_logout' %}">Logout</a>
+            {% else %}
+            <a href="{% url 'user_login' %}">Sign In</a>
+            <a href="{% url 'user_register' %}">Sign Up</a>
+            {% endif %}
+            <a href="{% url 'admin_login' %}">Admin Login</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div style="text-align: center; margin-top: 150px;color: #fff;">
+        <h1>Diet Plan Recommendation System</h1>
+    </div>
+
+    <!-- Cards Section -->
+    <div class="cards-container">
+        <div class="card">
+            <h5 class="card-title">Healthy Eating</h5>
+            <p class="card-text">Learn about the importance of a balanced diet and healthy eating habits.</p>
+        </div>
+        <div class="card">
+            <h5 class="card-title">Personalized Plans</h5>
+            <p class="card-text">Get personalized diet plans based on your preferences and needs.</p>
+        </div>
+        <div class="card">
+            <h5 class="card-title">Expert Advice</h5>
+            <p class="card-text">Access tips and advice from nutrition experts to stay healthy.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer id="footer">
+        <p>&copy; 2024 Diet Recommendation System. All rights reserved.</p>
+    </footer>
+
+    <!-- Scroll to Top Button -->
+    <button class="scroll-btn" id="scrollTopBtn">&#8679;</button>
+    <!-- Chatbot Button -->
+    <a href="{% url 'chatbot' %}">
+        <button class="chatbot-btn" id="chatbotBtn">&#128172;</button>
+    </a>
+
+    <script>
+        // Show "scroll to top" button when user scrolls down
+        const scrollTopBtn = document.getElementById("scrollTopBtn");
+        const chatbotBtn = document.getElementById("chatbotBtn");
+        const footer = document.getElementById("footer");
+        const navbar = document.getElementById("navbar");
+        const sticky = navbar.offsetTop;
+
+        window.onscroll = function () {
+            // Show scroll button when scrolled down 300px
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                scrollTopBtn.style.display = "block";
+            } else {
+                scrollTopBtn.style.display = "none";
+            }
+
+            // Show footer when scrolled to the bottom of the page
+            if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+                footer.style.bottom = "0";
+            } else {
+                footer.style.bottom = "-100px";
+            }
+
+            // Add sticky class to the navbar when scrolled down
+            if (window.pageYOffset > sticky) {
+                navbar.classList.add("sticky");
+            } else {
+                navbar.classList.remove("sticky");
+            }
+        };
+
+        // Scroll to top when the button is clicked
+        scrollTopBtn.onclick = function () {
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+        };
+    </script>
+    
+</body>
+
+</html>
